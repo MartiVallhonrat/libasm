@@ -1,5 +1,7 @@
 global ft_strlen
 
+extern __errno_location
+
 section .text
 ft_strlen:
 	cmp	rdi, 0
@@ -19,5 +21,8 @@ end:
 	ret
 
 error:
+	call	__errno_location wrt ..plt
+	mov	r8, 22
+	mov	[rax], r8
 	mov	rax, -1
 	ret
