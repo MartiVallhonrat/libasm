@@ -10,18 +10,22 @@ SRCS = ft_strlen.s \
 OBJS = $(SRCS:.s=.o)
 
 TEST_SRCS = main.c
+TEST_OBJS = $(TEST_SRCS:.c=.o)
 TEST_NAME = testMe
 
 %.o: %.s
 	nasm -f elf64 $< -o $@
+
+%o: %.c
+	gcc -c $< -o $@
 
 $(NAME): $(OBJS) Makefile
 	ar rcs $(NAME) $(OBJS)
 
 all: $(NAME)
 
-test: $(NAME) $(TEST_SRCS)
-	gcc $(TEST_SRCS) $(NAME) -o $(TEST_NAME)
+$(TEST_NAME): $(NAME) $(TEST_OBJS)
+	gcc $(TEST_OBJS) $(NAME) -o $(TEST_NAME)
 
 clean:
 	rm -f $(NAME)
@@ -29,6 +33,7 @@ clean:
 fclean: clean
 	rm -f $(OBJS)
 	rm -f $(TEST_NAME)
+	rm -f $(TEST_OBJS)
 
 re: fclean all
 
