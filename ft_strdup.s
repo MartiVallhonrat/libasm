@@ -19,7 +19,7 @@ ft_strdup:
 	
 	call	malloc wrt ..plt
 	cmp	rax, 0
-	je	error
+	je	malloc_error
 	mov	rdi, rax
 			
 	pop	rsi	
